@@ -29,18 +29,33 @@ class App extends Component {
   }
 
   getVehicles() {
-    // axios (GET)
-    // setState with response -> vehiclesToDisplay
+    axios.get('http://joes-autos.herokuapp.com/api/vehicles').then(results =>{
+      toast.success("Successfulyy got Vehicles");
+      this.setState({vehiclesToDisplay:results.data});
+    }).catch(() => toast.error("Failed at fetching Vechicles"))
   }
 
   getPotentialBuyers() {
     // axios (GET)
     // setState with response -> buyersToDisplay
+    axios.get("https://joes-autos.herokuapp.com/api/buyers").then(results => {
+      toast.success("Successfully got buyers.");
+      this.setState({buyersToDisplay:results.data});
+    }).catch( () => toast.error("Failed to get buyers"));
   }
 
   sellCar( id ) {
     // axios (DELETE)
     // setState with response -> vehiclesToDisplay
+    axios.delete(`https://joes-autos.herokuapp.com/api/vehicles/${id}`).then(results =>{
+      toast.success("Successfully sold car");
+      this.setState({vehiclesToDisplay:results.data.vehicles});
+    }).catch(() => toast.error("Failed at selling car."));
+
+  //   axios.delete(`https://joes-autos.herokuapp.com/api/vehicles/${ id }`).then( results => {
+  //   toast.success("Successfully sold car.");
+  //   this.setState({ 'vehiclesToDisplay': results.data.vehicles });
+  // }).catch( () => toast.error("Failed at selling car.") );
   }
 
   filterByMake() {
@@ -48,6 +63,10 @@ class App extends Component {
 
     // axios (GET)
     // setState with response -> vehiclesToDisplay
+    axios.get(`http://joes-autos.herokuapp.com/api/vehicles?make=${make}`).then(results => {
+      toast.success(`Successfully got ${make}.`);
+      this.setState({vehiclesToDisplay:results.data});
+    }).catch( () => toast.error(`Failed at getting ${make}`))
   }
 
   filterByColor() {
@@ -55,11 +74,19 @@ class App extends Component {
 
     // axios (GET)
     // setState with response -> vehiclesToDisplay
+    axios.get(`https://joes-autos.herokuapp.com/api/vehicles?color=${color}`).then(results =>{
+      toast.success(`successfully got ${color}`);
+      this.setState({vehiclesToDisplay:results.data});
+    }).catch( () => toast.error("Failed at getting color"));
   }
 
   updatePrice( priceChange, id ) {
     // axios (PUT)
     // setState with response -> vehiclesToDisplay
+    axios.put(`https://joes-autos.herokuapp.com/api/vehicles/${ id }/${ priceChange }`).then(results =>{
+      toast.success("Successfully updated price.");
+      this.setState({vehiclesToDisplay: results.data.vehicles});
+    }).catch( () => toast.error("Failed at updating price"))
   }
 
   addCar() {
@@ -73,6 +100,15 @@ class App extends Component {
 
     // axios (POST)
     // setState with response -> vehiclesToDisplay
+    // axios.post('https://joes-autos.herokuapp.com/api/vehicles', newCar).then( results => {
+    //   toast.success("Successfully added vehicle.");
+    //   this.setState({ vehiclesToDisplay: results.data.vehicles });
+    // }).catch( () => toast.error('Failed at adding new vehicle.') );
+
+    axios.post('https://joes-autos.herokuapp.com/api/vehicles', newCar).then( results => {
+    toast.success("Successfully added vehicle.");
+    this.setState({ vehiclesToDisplay: results.data.vehicles });
+  }).catch( () => toast.error('Failed at adding new vehicle.') );
   }
 
   addBuyer() {
@@ -84,11 +120,19 @@ class App extends Component {
 
     //axios (POST)
     // setState with response -> buyersToDisplay
+    axios.post(`https://joes-autos.herokuapp.com/api/buyers`,newBuyer).then(results =>{
+      toast.success("Successfully added buyer.");
+      this.setState({buyersToDisplay:results.data.buyers});
+    }).catch( () => toast.error("Failed at adding new buyer."))
   }
 
   deleteBuyer( id ) {
     // axios (DELETE)
     //setState with response -> buyersToDisplay
+    axios.delete(`https://joes-autos.herokuapp.com/api/buyers/${id}`).then(results => {
+      toast.success("Successfully delete buyer.");
+      this.setState({buyersToDisplay:results.data.buyers});
+    }).catch(() => toast.error("Failed to delete buyer."));
   }
 
   nameSearch() {
@@ -96,6 +140,10 @@ class App extends Component {
 
     // axios (GET)
     // setState with response -> buyersToDisplay
+    axios.get(`http://joes-autos.herokuapp.com/api/buyers?name=${searchLetters}`).then(results =>{
+      toast.success("Successfully got names");
+      this.setState({buyersToDisplay:results.data});
+    }).catch( () => toast.error("Failed at getting names"));
   }
 
   byYear() {
@@ -103,6 +151,10 @@ class App extends Component {
 
     // axios (GET)
     // setState with response -> vehiclesToDisplay
+    axios.get(`http://joes-autos.herokuapp.com/api/vehicles?year=${year}`).then(results => {
+      toast.success("Successfully got year");
+      this.setState({vehiclesToDisplay:results.data});
+    }).catch( () => toast.error("Failed to get year"));
   }
 
   // Do not edit the code below
